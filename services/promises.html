@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
         
         <meta charset="UTF-8">
-        <title>Controller Layout | Cleanangular</title>
+        <title>Promises | Cleanangular</title>
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="robots" content="index, follow">
@@ -13,13 +13,11 @@
         <meta name="generator" content="www.gitbook.io">
 
         
-        <link rel="next" href="../controllers/as.html" />
         
-        
-        <link rel="prev" href="../controllers/README.html" />
+        <link rel="prev" href="../services/README.html" />
         
 
-        <meta property="og:title" content="Controller Layout | Cleanangular">
+        <meta property="og:title" content="Promises | Cleanangular">
         <meta property="og:site_name" content="Cleanangular">
         <meta property="og:type" content="book">
         <meta property="og:locale" content="en_US">
@@ -43,7 +41,7 @@
     </head>
     <body>
         
-<div class="book with-summary" data-github="alextucker/cleanangular" data-level="1.1">
+<div class="book with-summary" data-github="alextucker/cleanangular" data-level="2.1">
     <div class="book-header">
     <!-- Actions Left -->
     <a href="https://github.com/alextucker/cleanangular" target="_blank" class="btn pull-left"><i class="fa fa-github-alt"></i></a>
@@ -70,7 +68,7 @@
             <a href="https://github.com/alextucker/cleanangular/issues" target="blank">Questions and Issues</a>
         </li>
         <li>
-            <a href="https://github.com/alextucker/cleanangular/edit/master/controllers/layout.md" target="blank">Edit and Contribute</a>
+            <a href="https://github.com/alextucker/cleanangular/edit/master/services/promises.md" target="blank">Edit and Contribute</a>
         </li>
         <li class="divider"></li>
         <li data-level="0">
@@ -86,7 +84,7 @@
                 
                 <ul class="articles">
                     
-                        <li class="active" data-level="1.1">
+                        <li  data-level="1.1">
                             
                             <a href="../controllers/layout.html">
                                 <i class="fa fa-check"></i> <b>1.1)</b> Controller Layout
@@ -115,7 +113,7 @@
                 
                 <ul class="articles">
                     
-                        <li  data-level="2.1">
+                        <li class="active" data-level="2.1">
                             
                             <a href="../services/promises.html">
                                 <i class="fa fa-check"></i> <b>2.1)</b> Promises
@@ -133,7 +131,7 @@
         <div class="page-wrapper">
             <div class="book-progress">
                 <div class="bar">
-                    <div class="inner" style="width: 40%;min-width: 20%;"></div>
+                    <div class="inner" style="width: 100%;min-width: 80%;"></div>
                 </div>
                 <div class="chapters">
                 
@@ -143,56 +141,81 @@
                 
                     <a href="../controllers/layout.html" title="Controller Layout" class="chapter done " data-progress="1.1" style="left: 40%;"></a>
                 
-                    <a href="../controllers/as.html" title="Controller As" class="chapter  " data-progress="1.2" style="left: 60%;"></a>
+                    <a href="../controllers/as.html" title="Controller As" class="chapter done " data-progress="1.2" style="left: 60%;"></a>
                 
-                    <a href="../services/README.html" title="Services" class="chapter  new-chapter" data-progress="2" style="left: 80%;"></a>
+                    <a href="../services/README.html" title="Services" class="chapter done new-chapter" data-progress="2" style="left: 80%;"></a>
                 
-                    <a href="../services/promises.html" title="Promises" class="chapter  " data-progress="2.1" style="left: 100%;"></a>
+                    <a href="../services/promises.html" title="Promises" class="chapter done " data-progress="2.1" style="left: 100%;"></a>
                 
                 </div>
             </div>
 
             <div class="page-inner">
             
-                <section class="normal" id="section-gitbook_3">
+                <section class="normal" id="section-gitbook_5">
                 
-                    <h2 id="basic-controller-layout">Basic Controller Layout</h2>
-<pre><code>angular.module(<span class="hljs-string">'myapp.controllers.example'</span>, [])
-.controller(<span class="hljs-string">'ExampleController'</span>, [<span class="hljs-string">'$scope'</span>, <span class="hljs-string">'UserService'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(<span class="hljs-variable">$scope</span>, UserService)</span>{</span>
-    <span class="hljs-comment">// **</span>
-    <span class="hljs-comment">// Initial State</span>
+                    <h2 id="promise-returning-service-pattern">Promise Returning Service Pattern</h2>
+<p>Promises are a powerful way of expressing asyc operations. Many Services in Angular that you will write will be hiding async 
+actions; using the network calls to the API or even WebWorkers.</p>
+<pre><code>angular.module(<span class="hljs-string">'myapp.services.usersettings'</span>, [])
+.factory(<span class="hljs-string">'UserSettingsService'</span>, [<span class="hljs-string">'$q'</span>, <span class="hljs-string">'$http'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(<span class="hljs-variable">$q</span>, <span class="hljs-variable">$http</span>)</span>{</span>
+    <span class="hljs-keyword">return</span> {
+        getSettings: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(id)</span> {</span>
+            <span class="hljs-keyword">var</span> defer = <span class="hljs-variable">$q</span>.defer(); <span class="hljs-comment">// A defer object that you control</span>
 
-    <span class="hljs-variable">$scope</span>.example = {
-        loading: {
-            user: <span class="hljs-keyword">false</span>
+            <span class="hljs-variable">$http</span>.get(<span class="hljs-string">'some/url'</span>)
+            .success(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(resp)</span>{</span>
+                defer.resolve(data);
+            })
+            .error(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
+                defer.reject(data);
+            });
+
+            <span class="hljs-keyword">return</span> defer.promise; <span class="hljs-comment">// Return the promise of the defer you control</span>
         }
-    };
+    }
+}]);
+</code></pre><p>This pattern becomes very powerful at test time. Instead to mock $http, you can just control a promise;</p>
+<pre><code>describe(<span class="hljs-string">'MyController'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
+    <span class="hljs-comment">// Scope these somewhere accessible to inside beforeEach and it blocks</span>
+    <span class="hljs-keyword">var</span> ctrl, scope, userSettingsDefer;
 
+    beforeEach(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
+        angular.mock.module(<span class="hljs-string">'myapp.example.controllers.user'</span>);
 
-    <span class="hljs-comment">// **</span>
-    <span class="hljs-comment">// Initial Data</span>
+        angular.mock.inject(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(<span class="hljs-variable">$rootScope</span>, <span class="hljs-variable">$controller</span>, <span class="hljs-variable">$q</span>)</span>{</span>
+            userSettingsDefer = <span class="hljs-variable">$q</span>.defer();
+            scope = <span class="hljs-variable">$rootScope</span>.<span class="hljs-variable">$new</span>();
+            <span class="hljs-keyword">var</span> mock = {
+                getSettings: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(id)</span> {</span>
+                    <span class="hljs-keyword">return</span> userSettingsDefer.promise;
+                }
+            };
 
-    UserService.getUserById(<span class="hljs-number">1</span>)
-    .then(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(user)</span>{</span>
-        <span class="hljs-variable">$scope</span>.user = user;
-        <span class="hljs-variable">$scope</span>.example.loading.user = <span class="hljs-keyword">false</span>;
+            ctrl = <span class="hljs-variable">$controller</span>(<span class="hljs-string">'UserController'</span>, {
+                <span class="hljs-variable">$scope</span>: scope,
+                UserSettingsService: mock
+            });
+        });
+
     });
 
-    <span class="hljs-comment">//**</span>
-    <span class="hljs-comment">// Controller API (Public)</span>
+    it(<span class="hljs-string">'should get user settings'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
+        <span class="hljs-comment">// This method will call a service, and when resolved</span>
+        <span class="hljs-comment">// munge the data a little and attach it to the scope.</span>
+        ctrl.someMethodThatRefreshesSettings();
 
-    this.changeUsername = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(username)</span> {</span>
-        <span class="hljs-comment">// Code Here</span>
-    };
+        <span class="hljs-comment">// Resolve the promise</span>
+        userSettingsDefer.resolve({someSetting: <span class="hljs-string">'1234'</span>});
 
+        <span class="hljs-comment">// DONT FORGET THIS</span>
+        <span class="hljs-comment">// You need to manually trigger the digest so the promise watchers will propogate</span>
+        <span class="hljs-variable">$rootScope</span>.<span class="hljs-variable">$digest</span>();
 
-    <span class="hljs-comment">//**</span>
-    <span class="hljs-comment">// Controller API (private)</span>
-
-    this._privateMethod = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(arg1)</span> {</span>
-        <span class="hljs-comment">// Code here</span>
-    };
-}]);
+        <span class="hljs-comment">// Now assert that the code listening the promise did what you expected.</span>
+        expect(scope.settings.someSetting).to.equal(<span class="hljs-string">'abc_1234'</span>);
+    });
+});
 </code></pre>
                 
                 </section>
@@ -202,9 +225,7 @@
             <div class="page-footer">
                 
                     
-                        
-                        <a href="../controllers/as.html" class="navigation-link next">Next</a>
-                        
+                    <div class="navigation-link finished">Finished!</div>
                     
                 
             </div>

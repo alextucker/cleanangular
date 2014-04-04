@@ -13,6 +13,8 @@
         <meta name="generator" content="www.gitbook.io">
 
         
+        <link rel="next" href="../services/README.html" />
+        
         
         <link rel="prev" href="../controllers/layout.html" />
         
@@ -104,23 +106,48 @@
                 
             </li>
         
+            <li  data-level="2">
+                
+                <a href="../services/README.html">
+                    <i class="fa fa-check"></i> <b>2)</b> Services
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="2.1">
+                            
+                            <a href="../services/promises.html">
+                                <i class="fa fa-check"></i> <b>2.1)</b> Promises
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
     </ul>
 </div>
     <div class="book-body" tabindex="-1">
         <div class="page-wrapper">
             <div class="book-progress">
                 <div class="bar">
-                    <div class="inner" style="width: 100%;min-width: 66.66666666666667%;"></div>
+                    <div class="inner" style="width: 60%;min-width: 40%;"></div>
                 </div>
                 <div class="chapters">
                 
                     <a href="../README.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
                 
-                    <a href="../controllers/README.html" title="Controllers" class="chapter done new-chapter" data-progress="1" style="left: 33.333333333333336%;"></a>
+                    <a href="../controllers/README.html" title="Controllers" class="chapter done new-chapter" data-progress="1" style="left: 20%;"></a>
                 
-                    <a href="../controllers/layout.html" title="Controller Layout" class="chapter done " data-progress="1.1" style="left: 66.66666666666667%;"></a>
+                    <a href="../controllers/layout.html" title="Controller Layout" class="chapter done " data-progress="1.1" style="left: 40%;"></a>
                 
-                    <a href="../controllers/as.html" title="Controller As" class="chapter done " data-progress="1.2" style="left: 100%;"></a>
+                    <a href="../controllers/as.html" title="Controller As" class="chapter done " data-progress="1.2" style="left: 60%;"></a>
+                
+                    <a href="../services/README.html" title="Services" class="chapter  new-chapter" data-progress="2" style="left: 80%;"></a>
+                
+                    <a href="../services/promises.html" title="Promises" class="chapter  " data-progress="2.1" style="left: 100%;"></a>
                 
                 </div>
             </div>
@@ -137,6 +164,12 @@ for exposting methods. &#39;Controller as&#39; allows you to expose methods usin
     <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">ng-model</span>=<span class="hljs-value">"user.username"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">ng-click</span>=<span class="hljs-value">"usersettings.updateName(user.username)"</span>&gt;</span>Update Name<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+</code></pre><pre><code>angular.module(<span class="hljs-string">'myapp.controllers.usersettings'</span>, [])
+.controller(<span class="hljs-string">'UserSettingsController'</span>, [<span class="hljs-string">'$scope'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($scope)</span>{</span>
+    <span class="hljs-keyword">this</span>.updateName = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(username)</span> {</span>
+        <span class="hljs-comment">// Code here</span>
+    };
+}]);
 </code></pre>
                 
                 </section>
@@ -146,7 +179,9 @@ for exposting methods. &#39;Controller as&#39; allows you to expose methods usin
             <div class="page-footer">
                 
                     
-                    <div class="navigation-link finished">Finished!</div>
+                        
+                        <a href="../services/README.html" class="navigation-link next">Next</a>
+                        
                     
                 
             </div>
