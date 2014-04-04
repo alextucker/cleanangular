@@ -11,3 +11,12 @@ for exposting methods. 'Controller as' allows you to expose methods using `this`
     <button ng-click="usersettings.updateName(user.username)">Update Name</button>
 </div>
 ```
+
+```
+angular.module('myapp.controllers.usersettings', [])
+.controller('UserSettingsController', ['$scope', function($scope){
+    this.updateName = function(username) {
+        // Code here
+    };
+}]);
+```
