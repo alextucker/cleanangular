@@ -1,4 +1,5 @@
-## Basic Controller Layout
+Basic Controller Layout
+-----------------------
 
 ```
 angular.module('myapp.controllers.example', [])

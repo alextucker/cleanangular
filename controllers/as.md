@@ -1,4 +1,5 @@
-### Controller 'as' Syntax
+Controller 'as' Syntax
+----------------------
 
 Angular has a litte know template syntax know as 'Controller as' that allows you have refernse the controller object itself, and not just the scope.
 
