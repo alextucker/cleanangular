@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
         
         <meta charset="UTF-8">
-        <title>Controller Layout | Cleanangular</title>
+        <title>Information Sharing | Cleanangular</title>
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="robots" content="index, follow">
@@ -13,13 +13,13 @@
         <meta name="generator" content="www.gitbook.io">
 
         
-        <link rel="next" href="../controllers/as.html" />
+        <link rel="next" href="../services/README.html" />
         
         
-        <link rel="prev" href="../controllers/README.html" />
+        <link rel="prev" href="../controllers/as.html" />
         
 
-        <meta property="og:title" content="Controller Layout | Cleanangular">
+        <meta property="og:title" content="Information Sharing | Cleanangular">
         <meta property="og:site_name" content="Cleanangular">
         <meta property="og:type" content="book">
         <meta property="og:locale" content="en_US">
@@ -43,7 +43,7 @@
     </head>
     <body>
         
-<div class="book with-summary" data-github="alextucker/cleanangular" data-level="1.1">
+<div class="book with-summary" data-github="alextucker/cleanangular" data-level="1.3">
     <div class="book-header">
     <!-- Actions Left -->
     <a href="https://github.com/alextucker/cleanangular" target="_blank" class="btn pull-left"><i class="fa fa-github-alt"></i></a>
@@ -70,7 +70,7 @@
             <a href="https://github.com/alextucker/cleanangular/issues" target="blank">Questions and Issues</a>
         </li>
         <li>
-            <a href="https://github.com/alextucker/cleanangular/edit/master/controllers/layout.md" target="blank">Edit and Contribute</a>
+            <a href="https://github.com/alextucker/cleanangular/edit/master/controllers/sharing.md" target="blank">Edit and Contribute</a>
         </li>
         <li class="divider"></li>
         <li data-level="0">
@@ -86,7 +86,7 @@
                 
                 <ul class="articles">
                     
-                        <li class="active" data-level="1.1">
+                        <li  data-level="1.1">
                             
                             <a href="../controllers/layout.html">
                                 <i class="fa fa-check"></i> <b>1.1)</b> Controller Layout
@@ -102,7 +102,7 @@
                             
                         </li>
                     
-                        <li  data-level="1.3">
+                        <li class="active" data-level="1.3">
                             
                             <a href="../controllers/sharing.html">
                                 <i class="fa fa-check"></i> <b>1.3)</b> Information Sharing
@@ -141,7 +141,7 @@
         <div class="page-wrapper">
             <div class="book-progress">
                 <div class="bar">
-                    <div class="inner" style="width: 33.333333333333336%;min-width: 16.666666666666668%;"></div>
+                    <div class="inner" style="width: 66.66666666666667%;min-width: 50%;"></div>
                 </div>
                 <div class="chapters">
                 
@@ -151,9 +151,9 @@
                 
                     <a href="../controllers/layout.html" title="Controller Layout" class="chapter done " data-progress="1.1" style="left: 33.333333333333336%;"></a>
                 
-                    <a href="../controllers/as.html" title="Controller As" class="chapter  " data-progress="1.2" style="left: 50%;"></a>
+                    <a href="../controllers/as.html" title="Controller As" class="chapter done " data-progress="1.2" style="left: 50%;"></a>
                 
-                    <a href="../controllers/sharing.html" title="Information Sharing" class="chapter  " data-progress="1.3" style="left: 66.66666666666667%;"></a>
+                    <a href="../controllers/sharing.html" title="Information Sharing" class="chapter done " data-progress="1.3" style="left: 66.66666666666667%;"></a>
                 
                     <a href="../services/README.html" title="Services" class="chapter  new-chapter" data-progress="2" style="left: 83.33333333333333%;"></a>
                 
@@ -164,43 +164,56 @@
 
             <div class="page-inner">
             
-                <section class="normal" id="section-gitbook_4">
+                <section class="normal" id="section-gitbook_5">
                 
-                    <h2 id="basic-controller-layout">Basic Controller Layout</h2>
-<pre><code>angular.module(<span class="hljs-string">'myapp.controllers.example'</span>, [])
-.controller(<span class="hljs-string">'ExampleController'</span>, [<span class="hljs-string">'$scope'</span>, <span class="hljs-string">'UserService'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(<span class="hljs-variable">$scope</span>, UserService)</span>{</span>
-    <span class="hljs-comment">// **</span>
-    <span class="hljs-comment">// Initial State</span>
+                    <h2 id="information-sharing">Information Sharing</h2>
+<p>It is common that you want to share information between controllers.</p>
+<h3 id="what-not-to-do">What Not To Do</h3>
+<p>Rely on Parent Scope</p>
+<p>Repeat state using services</p>
+<p>Share state using service internals</p>
+<h3 id="what-to-do">What To Do</h3>
+<p>Watch Parent scopes for shared data, children create their own independent scopes. Communicate changes via events.
+How is this different than a child scope relying on a parent scope? The idea is to watch parent scopes and have
+children create their own scopes when the parent changes.</p>
+<p>Mutation</p>
+<p>When a child scope makes changes to data, it will not directly change the data on the parent scope. Instead it will
+communicate its changes via an event. Events will act as the contract for mutating data in your application.</p>
+<pre><code>angular.module(<span class="hljs-string">'myapp.controllers.parent'</span>, [])
+.controller(<span class="hljs-string">'ParentController'</span>, [<span class="hljs-string">'$scope'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(<span class="hljs-variable">$scope</span>)</span>{</span>
+    <span class="hljs-variable">$scope</span>.parentData = {
+        nestedData: {
+            x: <span class="hljs-keyword">true</span>,
+            y: <span class="hljs-string">'Foo'</span>,
+            z: <span class="hljs-number">1234</span>
+        },
 
-    <span class="hljs-variable">$scope</span>.example = {
-        loading: {
-            user: <span class="hljs-keyword">false</span>
-        }
+        nestedCollection: [
+            <span class="hljs-comment">// Collection data</span>
+        ]
     };
 
+    <span class="hljs-variable">$scope</span>.<span class="hljs-variable">$on</span>(<span class="hljs-string">'nestedData:change'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(data)</span>{</span>
+        <span class="hljs-comment">// Persist changes somehow</span>
 
-    <span class="hljs-comment">// **</span>
-    <span class="hljs-comment">// Initial Data</span>
+        <span class="hljs-comment">// Update parent scope that will communicate changes to children.</span>
+        <span class="hljs-variable">$scope</span>.parentData.nestedData = data;
+    });
+}]);
 
-    UserService.getUserById(<span class="hljs-number">1</span>)
-    .then(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(user)</span>{</span>
-        <span class="hljs-variable">$scope</span>.user = user;
-        <span class="hljs-variable">$scope</span>.example.loading.user = <span class="hljs-keyword">false</span>;
+angular.module(<span class="hljs-string">'myapp.controllers.child'</span>, [])
+.controller(<span class="hljs-string">'ChildController'</span>, [<span class="hljs-string">'$scope'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(<span class="hljs-variable">$scope</span>)</span>{</span>
+    <span class="hljs-variable">$scope</span>.<span class="hljs-variable">$watch</span>(<span class="hljs-string">'parentData.nestedData'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(newValue, oldValue, scope)</span>{</span>
+        <span class="hljs-keyword">if</span>(newValue === oldValue) <span class="hljs-keyword">return</span>; <span class="hljs-comment">// Short circuit when you dont need to do anything</span>
+
+        <span class="hljs-comment">// Child scope creates its own scope derived from the parent's scope.</span>
+        <span class="hljs-comment">// This new child scope is what can be refernced in templates and</span>
+        <span class="hljs-comment">// mutated by the child controller.</span>
+        <span class="hljs-variable">$scope</span>.childData = newValue;
     });
 
-    <span class="hljs-comment">//**</span>
-    <span class="hljs-comment">// Controller API (Public)</span>
-
-    this.changeUsername = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(username)</span> {</span>
-        <span class="hljs-comment">// Code Here</span>
-    };
-
-
-    <span class="hljs-comment">//**</span>
-    <span class="hljs-comment">// Controller API (private)</span>
-
-    this._privateMethod = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(arg1)</span> {</span>
-        <span class="hljs-comment">// Code here</span>
+    this.update = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
+        <span class="hljs-variable">$scope</span>.emit(<span class="hljs-string">'nestedData:change'</span>, <span class="hljs-variable">$scope</span>.childData);
     };
 }]);
 </code></pre>
@@ -213,7 +226,7 @@
                 
                     
                         
-                        <a href="../controllers/as.html" class="navigation-link next">Next</a>
+                        <a href="../services/README.html" class="navigation-link next">Next</a>
                         
                     
                 
