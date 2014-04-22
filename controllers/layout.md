@@ -1,7 +1,11 @@
 Basic Controller Layout
 -----------------------
 
-```
+Some disciple about how you simply layout the different concerns in a controller will go a long way when
+it comes to maintainability and working with a team. Below is an example of how you can organize your code
+inside of a controller.
+
+```javascript
 angular.module('myapp.controllers.example', [])
 .controller('ExampleController', ['$scope', 'UserService', function($scope, UserService){
     // **

@@ -4,7 +4,7 @@ Promise Returning Service Pattern
 Promises are a powerful way of expressing asyc operations. Many Services in Angular that you will write will be hiding async 
 actions; using the network calls to the API or even WebWorkers.
 
-```
+```javascript
 angular.module('myapp.services.usersettings', [])
 .factory('UserSettingsService', ['$q', '$http', function($q, $http){
     return {
@@ -25,9 +25,9 @@ angular.module('myapp.services.usersettings', [])
 }]);
 ```
 
-This pattern becomes very powerful at test time. Instead to mock $http, you can just control a promise;
+This pattern becomes very powerful at test time. Instead to mock $http, you can just control a promise
 
-```
+```javascript
 describe('MyController', function(){
     // Scope these somewhere accessible to inside beforeEach and it blocks
     var ctrl, scope, userSettingsDefer;

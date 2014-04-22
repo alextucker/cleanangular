@@ -13,16 +13,18 @@ Share state using service internals
 
 ### What To Do
 
-Watch Parent scopes for shared data, children create their own independent scopes. Communicate changes via events.
-How is this different than a child scope relying on a parent scope? The idea is to watch parent scopes and have
-children create their own scopes when the parent changes.
+Watch Parent scope for shared data and children create their own independent scopes. Communicate changes via events.
+How is this different than a child scope relying on a parent scope? The child is not entirely relyant on the parent 
+as it does in the create its own scope. The real problems with using the Parent scope directly is that you can run
+into race conditions and side effects very easily. This technique can be refined to use events instead of a `$watch`
+if you need more fine grain control or if performance becomes an issue.
 
-Mutation
+### Mutation
 
-When a child scope makes changes to data, it will not directly change the data on the parent scope. Instead it will
+When a child scope makes changes to data, it will not directly change the data on the Parent scope. Instead it will
 communicate its changes via an event. Events will act as the contract for mutating data in your application.
 
-```
+```javascript
 angular.module('myapp.controllers.parent', [])
 .controller('ParentController', ['$scope', function($scope){
     $scope.parentData = {
@@ -37,7 +39,7 @@ angular.module('myapp.controllers.parent', [])
         ]
     };
 
-    $scope.$on('nestedData:change', function(data){
+    $scope.$on('nestedData:change', function(event, data){
         // Persist changes somehow
 
         // Update parent scope that will communicate changes to children.
